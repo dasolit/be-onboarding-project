@@ -3,6 +3,8 @@ package com.fc.survey.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +31,7 @@ public class Question extends BaseTimeEntity{
   private String description;
 
   @Comment("항목 입력 형태")
-  @Column
+  @Enumerated(EnumType.STRING)
   private QuestionType type;
 
   @Comment("항목 선택 값 | 로 구분")
