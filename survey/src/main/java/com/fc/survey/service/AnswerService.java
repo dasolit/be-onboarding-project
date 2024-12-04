@@ -70,13 +70,10 @@ public class AnswerService {
             .questionName(question.getName())
             .answer(answerQuestion.getResponse())
             .build();
-        log.info(answerResponse.toString());
         answerResponses.add(answerResponse);
       }
       surveyResponse.setAnswers(answerResponses);
-      log.info(surveyResponse.toString());
       responses.add(surveyResponse);
-      log.info(responses.toString());
     }
     return responses;
   }
