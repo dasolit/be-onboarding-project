@@ -2,6 +2,8 @@ package com.fc.survey.service;
 
 import com.fc.survey.dto.request.QuestionSubmitDTO;
 import com.fc.survey.dto.request.SurveySubmitDTO;
+import com.fc.survey.dto.response.AnswerResponse;
+import com.fc.survey.dto.response.SurveyResponse;
 import com.fc.survey.entity.Answer;
 import com.fc.survey.entity.AnswerQuestion;
 import com.fc.survey.entity.Question;
@@ -47,5 +49,35 @@ public class AnswerService {
     }
     answer.setResponses(questions);
     answerRepository.save(answer);
+  }
+
+
+  public List<SurveyResponse> findAllAnswer(Long id) {
+    List<Answer> answers = answerRepository.findAllBySurveyId(id);
+    List<SurveyResponse> responses = new ArrayList<>();
+    for(Answer answer : answers) {
+      SurveyResponse surveyResponse = SurveyResponse.builder()
+          .id(id)
+          .name(answer.getName())
+          .build();
+      List<AnswerResponse> answerResponses = new ArrayList<>();
+      for(AnswerQuestion answerQuestion : answer.getResponses()) {
+        Question question = questionRepository.findById(answerQuestion.getQuestion().getId()).orElseThrow(
+            () -> new IllegalArgumentException("Id를 찾을 수 없습니다."));
+        AnswerResponse answerResponse = AnswerResponse.builder()
+            .id(answerQuestion.getId())
+            .questionId(question.getId())
+            .questionName(question.getName())
+            .answer(answerQuestion.getResponse())
+            .build();
+        log.info(answerResponse.toString());
+        answerResponses.add(answerResponse);
+      }
+      surveyResponse.setAnswers(answerResponses);
+      log.info(surveyResponse.toString());
+      responses.add(surveyResponse);
+      log.info(responses.toString());
+    }
+    return responses;
   }
 }

@@ -14,4 +14,5 @@ public class ApiResponse<T> {
     this.msg = msg;
     this.data = data;
   }
+
 }
