@@ -1,4 +1,4 @@
-package com.fc.survey.dto;
+package com.fc.survey.dto.response;
 
 import lombok.Getter;
 

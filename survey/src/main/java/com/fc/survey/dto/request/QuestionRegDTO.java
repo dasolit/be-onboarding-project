@@ -1,11 +1,11 @@
-package com.fc.survey.dto;
+package com.fc.survey.dto.request;
 
 
 import com.fc.survey.entity.QuestionType;
 import lombok.Data;
 
 @Data
-public class QuestionDTO {
+public class QuestionRegDTO {
 
   private String name;
 

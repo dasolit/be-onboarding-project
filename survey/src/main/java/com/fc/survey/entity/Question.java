@@ -1,6 +1,9 @@
 package com.fc.survey.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,9 +14,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+@Data
 @Entity
 @NoArgsConstructor
 public class Question extends BaseTimeEntity{
@@ -49,6 +54,7 @@ public class Question extends BaseTimeEntity{
 
   @ManyToOne
   @JoinColumn(name = "survey_id")
+  @JsonIgnore
   private Survey survey;
 
   @Builder

@@ -1,4 +1,4 @@
-package com.fc.survey.dto;
+package com.fc.survey.dto.request;
 
 import com.fc.survey.entity.Question;
 import com.fc.survey.entity.Survey;
@@ -6,13 +6,13 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class SurveyDTO {
+public class SurveyRegDTO {
 
   private String name;
 
   private String description;
 
-  private List<QuestionDTO> questions;
+  private List<QuestionModDTO> questions;
 
   public Survey toEntity() {
     Survey survey = Survey.builder()

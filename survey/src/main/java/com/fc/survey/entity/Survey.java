@@ -9,12 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 public class Survey extends BaseTimeEntity{
 
@@ -35,13 +35,16 @@ public class Survey extends BaseTimeEntity{
   private List<Question> questions;
 
   @Builder
-  public Survey(String name, String description, List<Question> questions) {
+  public Survey(Long id, String name, String description, List<Question> questions) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.questions = questions;
   }
 
-  public void setQuestions(List<Question> questions) {
-    this.questions = questions;
+  public void addQuestion(Question question) {
+    questions.add(question);
+    question.setSurvey(this);
   }
+
 }
