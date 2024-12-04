@@ -16,8 +16,8 @@ public class SurveyService {
   private final SurveyRepository surveyRepository;
 
   @Transactional
-  public void saveSurvey(SurveyDTO requestDTO) {
+  public Survey save(SurveyDTO requestDTO) {
     Survey survey = requestDTO.toEntity();
-    surveyRepository.save(survey);
+    return surveyRepository.save(survey);
   }
 }
