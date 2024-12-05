@@ -1,15 +1,14 @@
 package com.fc.survey.dto;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
-public class ApiResponse<T> {
-  private final HttpStatus code;
+public class ResponseApi<T> {
+  private final String code;
   private final String msg;
   private final T data;
 
-  public ApiResponse(HttpStatus code, String msg, T data) {
+  public ResponseApi(String code, String msg, T data) {
     this.code = code;
     this.msg = msg;
     this.data = data;
