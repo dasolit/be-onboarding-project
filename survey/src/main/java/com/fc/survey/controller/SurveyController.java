@@ -30,7 +30,7 @@ public class SurveyController {
   private final SurveyService surveyService;
 
   @PostMapping
-  @Operation(summary = "설문조사 생성", description = "설문조사를 생성할 때 호출하는 API delete, required 값 false 로 전송 부탁드립니다!")
+  @Operation(summary = "설문조사 생성", description = "설문조사를 생성할 때 호출하는 API")
   @ApiResponses(value = {
       @ApiResponse(responseCode = ResponseConstants.SURVEY_CREATED_CODE, description = ResponseConstants.SURVEY_CREATED_MESSAGE)
   })
@@ -44,7 +44,7 @@ public class SurveyController {
   }
 
   @PutMapping
-  @Operation(summary = "설문조사 수정", description = "등록된 설문조사를 수정할 때 호출하는 API delete, required 값 false 로 전송 부탁드립니다!")
+  @Operation(summary = "설문조사 수정", description = "등록된 설문조사를 수정할 때 호출하는 API")
   @ApiResponses(value = {
       @ApiResponse(responseCode = ResponseConstants.SURVEY_UPDATE_CODE, description = ResponseConstants.SURVEY_UPDATE_MESSAGE)
   })
