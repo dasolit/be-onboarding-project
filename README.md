@@ -1,6 +1,20 @@
 # [IC2_BE] 최다솔 - 설문조사 서비스 과제
 
-swagger 주소: [바로가기](http://localhost:12345/swagger-ui/index.html) | http://localhost:12345/swagger-ui/index.html
+# API 주소
+
+[바로가기](http://localhost:12345/swagger-ui/index.html)
+
+```text
+http://localhost:12345/swagger-ui/index.html
+```
+
+# Jar
+
+[다운로드](https://drive.google.com/file/d/17a-RaT7cnZzKTQGK79m7zO85JdolVZjR/view?usp=sharing)
+
+```java
+java -jar survey-0.0.1-SNAPSHOT.jar
+```
 
 ### 멀티모듈
 
@@ -99,15 +113,3 @@ swagger 주소: [바로가기](http://localhost:12345/swagger-ui/index.html) | h
         implementation 'org.springframework.boot:spring-boot-starter-web'
     }
    ```
-
-### 트래픽과 많은 저장 데이터
-
----
-
-### 분산 환경
-
----
-
-### 동시성 이슈
-
----
