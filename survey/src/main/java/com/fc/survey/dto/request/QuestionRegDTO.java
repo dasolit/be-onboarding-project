@@ -12,7 +12,7 @@ public class QuestionRegDTO {
   @Schema(description = "질문명", example = "성함을 입력해주세요.")
   private String name;
 
-  @Schema(description = "질문 상세 설명", example = "최다솔")
+  @Schema(description = "질문 상세 설명", example = "성함을 입력해주세요.")
   private String description;
 
   @Schema(description = "질문 유형, QuestionType Enum 값 ", example = "1")

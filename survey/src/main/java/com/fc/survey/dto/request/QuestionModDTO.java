@@ -9,13 +9,13 @@ import lombok.Data;
 @Schema(description = "해당 설문조사의 개별 질문 데이터 모델")
 public class QuestionModDTO {
 
-  @Schema(description = "질문 식별자")
+  @Schema(description = "질문 식별자", example = "1")
   private Long id;
 
   @Schema(description = "질문명", example = "영문명을 입력해주세요")
   private String name;
 
-  @Schema(description = "질문 상세 설명", example = "choidasol")
+  @Schema(description = "질문 상세 설명", example = "영문명으로 입력해주세요!")
   private String description;
 
   @Schema(description = "질문 유형, QuestionType Enum 값 ", example = "1")

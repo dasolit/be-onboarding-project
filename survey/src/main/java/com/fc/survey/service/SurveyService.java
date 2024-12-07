@@ -40,16 +40,13 @@ public class SurveyService {
       } else {
         for (Question updateQuestion : survey.getQuestions()) {
           if (updateQuestion.getId().equals(question.getId())) {
-            if(updateQuestion.isDelete()) {
-              survey.getQuestions().remove(updateQuestion);
-            } else {
-              updateQuestion.setName(question.getName());
-              updateQuestion.setDescription(question.getDescription());
-              updateQuestion.setSelectValue(question.getSelectValue());
-              updateQuestion.setType(question.getType());
-              updateQuestion.setDelete(question.isDelete());
-              updateQuestion.setRequired(question.isRequired());
-            }
+            updateQuestion.setName(question.getName());
+            updateQuestion.setDescription(question.getDescription());
+            updateQuestion.setSelectValue(question.getSelectValue());
+            updateQuestion.setType(question.getType());
+            updateQuestion.setDelete(question.isDelete());
+            updateQuestion.setRequired(question.isRequired());
+            survey.addQuestion(updateQuestion);
             break;
           }
         }

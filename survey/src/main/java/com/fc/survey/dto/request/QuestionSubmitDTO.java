@@ -8,6 +8,6 @@ import lombok.Data;
 public class QuestionSubmitDTO {
   @Schema(description = "질문 식별자 값", example = "1")
   private Long id;
-  @Schema(description = "질문 응답 내용", example = "최다솔")
+  @Schema(description = "질문 응답 내용", example = "choidasol")
   private String response;
 }

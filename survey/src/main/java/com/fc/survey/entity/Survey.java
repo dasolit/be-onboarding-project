@@ -9,12 +9,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Survey extends BaseTimeEntity{
 
