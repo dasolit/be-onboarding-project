@@ -48,24 +48,19 @@ public class Question extends BaseTimeEntity{
   @Column
   private boolean isRequired;
 
-  @Comment("항목 삭제 여부")
-  @Column
-  private boolean isDelete;
-
   @ManyToOne
   @JoinColumn(name = "survey_id")
   @JsonIgnore
   private Survey survey;
 
   @Builder
-  public Question(Long id, String name, String description, QuestionType type, String selectValue, boolean isRequired, boolean isDelete, Survey survey) {
+  public Question(Long id, String name, String description, QuestionType type, String selectValue, boolean isRequired, Survey survey) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.type = type;
     this.selectValue = selectValue;
     this.isRequired = isRequired;
-    this.isDelete = isDelete;
     this.survey = survey;
   }
 

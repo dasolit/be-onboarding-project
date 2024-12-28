@@ -37,7 +37,6 @@ public class SurveyRegDTO {
             .description(questionDTO.getDescription())
             .selectValue(questionDTO.getSelectValue())
             .isRequired(questionDTO.isRequired())
-            .isDelete(questionDTO.isDelete())
             .survey(survey) // 부모 Survey 설정
             .build())
         .toList();
