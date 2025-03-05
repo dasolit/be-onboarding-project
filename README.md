@@ -12,104 +12,26 @@ http://localhost:12345/swagger-ui/index.html
 
 [다운로드](https://drive.google.com/file/d/17a-RaT7cnZzKTQGK79m7zO85JdolVZjR/view?usp=sharing)
 
-```java
-java -jar survey-0.0.1-SNAPSHOT.jar
-```
 
-### 멀티모듈
+## 2. 트래픽이 많고, 저장되어 있는 데이터가 많음을 염두에 둔 구현
 
----
+- **대규모 데이터 분산**:  
+  설문 응답(`Answer`)이 기하급수적으로 늘어날 수 있으므로, 테이블 **파티셔닝**(예: 날짜 기준 파티션) 또는 **샤딩**(수평 분할) 전략을 고려했습니다. 이를 통해 특정 파티션/샤드에만 쿼리를 수행하여 조회·저장 성능을 향상시킬 수 있습니다.
 
-개념
+- **인덱스(Index) 최적화**:  
+  `survey_id`, `question_id` 필드 등에 필수 인덱스를 설정하여, 설문·질문·응답 간 조인을 빠르게 처리합니다. 또한, **카디널리티(Cardinality) 분석**을 통해 불필요한 인덱스는 제거하고, 필요한 인덱스만 유지하여 DB 오버헤드를 줄입니다.
 
-1. 루트 프로젝트
-   - 전체 프로젝트를 관리하는 최상위 프로젝트
-   - 빌드 설정 파일이 서브모듈을 포함하고 관리
-   - 공통 설정 및 플로그인, 종속성, 버전을 정의히여 서브모듈이 상속받을 수 있도록 구성
-2. 서브모듈
-   - 각각의 모듈은 독립적인 기능을 담당
-   - 다른 모듈과 의존관계를 가질 수 있지만 종속성은 명확하게 관리
-   - 일반적으로 core, service, web 등의 역할로 나뉨
+- **캐싱(Caching) & 무중단 스케일링**:  
+  Redis 등 **인메모리 캐시**를 도입하여 자주 조회되는 설문조사 정보를 캐싱하며, 응답 제출 시 캐시 무효화(Invalidate) 정책을 적용합니다. Docker/Kubernetes 환경에서 컨테이너 수를 유연하게 조절해 **서비스 무중단 확장**을 지원합니다.
 
-구현방법
 
-1. 아래와 같이 프로젝트를 생성한다
-   ```
-   root-project/
-   ├── build.gradle
-   ├── settings.gradle
-   ├── core/
-   ├── service/
-   └── web/
-   ```
-2. settings.gradle에 서브 모듈을 포함한다.
+## 3. 다수의 서버, 인스턴스에서 동작할 수 있음을 염두에 둔 구현
 
-   settings.gradle
+- **Stateless 서버 아키텍처**:  
+  서버 인스턴스 간 세션 정보를 공유하지 않고, **JWT 토큰 기반 인증**으로 확장성을 높였습니다. 이를 통해 요청이 어떤 서버 인스턴스로 라우팅돼도 동일한 응답을 제공할 수 있으며, 무중단 배포 시에도 세션 스티키 문제가 발생하지 않습니다.
 
-   ```
-   rootProject.name = 'multi-module-project'
-   include 'core', 'service', 'web'
-   ```
+- **동시성 및 분산 락 고려**:  
+  여러 서버에서 동시에 같은 설문에 응답이 몰릴 수 있으므로, **Optimistic Lock**(버전 필드) 또는 **Pessimistic Lock**(`for update`) 적용을 염두에 두었습니다. 필요 시 **Redis 기반 분산 락**(Redisson 등)을 사용해 응답 중복 처리나 데이터 정합성 이슈를 해결할 수 있도록 확장했습니다.
 
-3. build.gradle에 공통 종속성 및 플러그인을 정의한다.
-
-   build.gradle
-
-   ```
-   plugins {
-   id 'org.springframework.boot' version '3.1.0'
-   id 'io.spring.dependency-management' version '1.1.0'
-   id 'java'
-   }
-   // 모든 프로젝트에 포함될 설정
-   allprojects {
-       group = 'com.example'
-       version = '1.0.0'
-
-       repositories {
-           mavenCentral()
-       }
-   }
-   // 서브 프로젝트에 포함될 설정
-   subprojects {
-       apply plugin: 'java'
-
-       dependencies {
-           testImplementation 'org.springframework.boot:spring-boot-starter-test'
-       }
-   }
-   ```
-
-4. 서브모듈 설정
-
-   core 모듈은 다른 모듈에서 재 사용하는 공통 기능이 작성된다. (예: DTO, 유틸리티 클래스)
-   core/build.gradle
-
-   ```
-   dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-   }
-   ```
-
-   service 모듈은 비즈니스 로직을 처리한다. core 모듈을 의존성으로 포함할 수 있다.
-   service/build.gradle
-
-   ```
-   dependencies {
-    implementation project(':core')
-    implementation 'org.springframework.boot:spring-boot-starter'
-   }
-   ```
-
-   web 모듈은 컨트롤러 및 사용자와의 상호작용을 처리하며 service 모듈을 의존성으로 포함한다.
-
-   ```
-   plugins {
-    id 'org.springframework.boot'
-    id 'io.spring.dependency-management'
-    }
-    dependencies {
-        implementation project(':service')
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-    }
-   ```
+- **Idempotency 확보**:  
+  재시도나 네트워크 장애로 인한 **중복 요청**을 막기 위해 **Request ID**(Unique Key)나 **트랜잭션 토큰**을 활용하는 방안을 고려했습니다. 이를 통해 동일한 요청이 여러 번 들어와도 단 한 번만 처리하도록 **Idempotent**하게 설계할 수 있습니다.
