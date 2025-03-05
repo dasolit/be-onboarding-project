@@ -2,7 +2,7 @@
 # API 요청 & JSON 예시 (단일 블록)
 
 ## (1) 설문조사 생성 [POST] /api/v1/survey
-
+```json
 {
   "name": "고객 만족도 조사",
   "description": "서비스 이용 고객들의 만족도 파악용 설문입니다.",
@@ -29,9 +29,10 @@
     }
   ]
 }
+```
 
 ## (2) 설문조사 수정 [PUT] /api/v1/survey/{surveyId}
-
+```json
 {
   "name": "고객 만족도 조사 (수정됨)",
   "description": "조사 설명이 변경되었습니다.",
@@ -58,9 +59,9 @@
     }
   ]
 }
-
+```
 ## (3-1) 설문 응답 제출 #1 [POST] /api/v1/answer/{surveyId}
-
+```json
 {
   "surveyId": 1,
   "answerItemList": [
@@ -80,9 +81,9 @@
     }
   ]
 }
-
+```
 ## (3-2) 설문 응답 제출 #2 [POST] /api/v1/answer/{surveyId}
-
+```json
 {
   "surveyId": 1,
   "answerItemList": [
@@ -105,9 +106,9 @@
     }
   ]
 }
-
+```
 ## (4) 설문 응답 조회 [GET] /api/v1/answer/{surveyId}
-
+```json
 [
   {
     "answerId": 10,
@@ -153,7 +154,7 @@
     ]
   }
 ]
-
+```
 
 # Jar
 
