@@ -1,12 +1,159 @@
 # [IC2_BE] 최다솔 - 설문조사 서비스 과제
+# API 요청 & JSON 예시 (단일 블록)
 
-# API 주소
+## (1) 설문조사 생성 [POST] /api/v1/survey
 
-[바로가기](http://localhost:12345/swagger-ui/index.html)
+{
+  "name": "고객 만족도 조사",
+  "description": "서비스 이용 고객들의 만족도 파악용 설문입니다.",
+  "items": [
+    {
+      "id": null,
+      "name": "이름",
+      "description": "사용자의 이름을 입력해주세요.",
+      "isRequired": true,
+      "type": "SHORT",
+      "options": []
+    },
+    {
+      "id": null,
+      "name": "가장 만족스러운 기능은?",
+      "description": "서비스 기능 중 가장 마음에 드는 것을 선택해주세요.",
+      "isRequired": false,
+      "type": "SINGLE",
+      "options": [
+        "속도",
+        "가격",
+        "디자인"
+      ]
+    }
+  ]
+}
 
-```text
-http://localhost:12345/swagger-ui/index.html
-```
+## (2) 설문조사 수정 [PUT] /api/v1/survey/{surveyId}
+
+{
+  "name": "고객 만족도 조사 (수정됨)",
+  "description": "조사 설명이 변경되었습니다.",
+  "items": [
+    {
+      "id": 1,
+      "name": "이름(수정)",
+      "description": "이름 질문을 수정했습니다.",
+      "isRequired": true,
+      "type": "SHORT",
+      "options": []
+    },
+    {
+      "id": null,
+      "name": "가격 만족도",
+      "description": "새로운 질문을 추가했습니다.",
+      "isRequired": false,
+      "type": "MULTI",
+      "options": [
+        "비싸다",
+        "적절하다",
+        "싸다"
+      ]
+    }
+  ]
+}
+
+## (3-1) 설문 응답 제출 #1 [POST] /api/v1/answer/{surveyId}
+
+{
+  "surveyId": 1,
+  "answerItemList": [
+    {
+      "itemId": 1,
+      "type": "SHORT",
+      "answer": "홍길동",
+      "option": null,
+      "optionList": null
+    },
+    {
+      "itemId": 2,
+      "type": "SINGLE",
+      "answer": null,
+      "option": "디자인",
+      "optionList": null
+    }
+  ]
+}
+
+## (3-2) 설문 응답 제출 #2 [POST] /api/v1/answer/{surveyId}
+
+{
+  "surveyId": 1,
+  "answerItemList": [
+    {
+      "itemId": 1,
+      "type": "SHORT",
+      "answer": "김철수",
+      "option": null,
+      "optionList": null
+    },
+    {
+      "itemId": 3,
+      "type": "MULTI",
+      "answer": null,
+      "option": null,
+      "optionList": [
+        "적절하다",
+        "싸다"
+      ]
+    }
+  ]
+}
+
+## (4) 설문 응답 조회 [GET] /api/v1/answer/{surveyId}
+
+[
+  {
+    "answerId": 10,
+    "surveyId": 1,
+    "answerItemList": [
+      {
+        "itemId": 1,
+        "type": "SHORT",
+        "answer": "홍길동",
+        "option": null,
+        "optionList": null
+      },
+      {
+        "itemId": 2,
+        "type": "SINGLE",
+        "answer": null,
+        "option": "디자인",
+        "optionList": null
+      }
+    ]
+  },
+  {
+    "answerId": 11,
+    "surveyId": 1,
+    "answerItemList": [
+      {
+        "itemId": 1,
+        "type": "SHORT",
+        "answer": "김철수",
+        "option": null,
+        "optionList": null
+      },
+      {
+        "itemId": 3,
+        "type": "MULTI",
+        "answer": null,
+        "option": null,
+        "optionList": [
+          "적절하다",
+          "싸다"
+        ]
+      }
+    ]
+  }
+]
+
 
 # Jar
 
