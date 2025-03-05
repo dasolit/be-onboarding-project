@@ -3,7 +3,7 @@ package com.fc.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {"com.fc.api", "com.fc.core", "com.fc.domain"})
+@SpringBootApplication(scanBasePackages = {"com.fc.api", "com.fc.core"})
 public class ApiApplication {
 
   public static void main(String[] args) {
